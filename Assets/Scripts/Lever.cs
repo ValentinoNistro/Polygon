@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Button : MonoBehaviour
+public class Lever : MonoBehaviour
 {
     public GameObject txtToDisplay;             //display the UI text
 
     private bool PlayerInZone;                  //check if the player is in trigger
-
-    public GameObject block;
 
     private void Start()
     {
@@ -21,10 +19,12 @@ public class Button : MonoBehaviour
     {
         if (PlayerInZone && Input.GetKeyDown(KeyCode.E))           //if in zone and press F key
         {
+            //Play lever sound
             gameObject.GetComponent<AudioSource>().Play();
-            gameObject.GetComponent<Animator>().Play("switch");
+            //Play lever animation
+            gameObject.GetComponent<Animator>().Play("lever");
 
-            StartCoroutine(SpawnBridge());
+            StartCoroutine(QuitGame());
         }
     }
 
@@ -46,12 +46,13 @@ public class Button : MonoBehaviour
             txtToDisplay.SetActive(false);
         }
     }
-    IEnumerator SpawnBridge()
+
+    IEnumerator QuitGame()
     {
         yield return new WaitForSeconds(0.8f);
 
         //Quit game when lever is pressed
-        block.SetActive(!block.activeSelf);
+        Application.Quit();
 
     }
 }
